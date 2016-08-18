@@ -78,7 +78,7 @@ BGRect BGRectMake(CGFloat x, CGFloat y, CGFloat width, CGFloat height) {
         self.contentRect = BGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 164);
         self.stopPosition = self.contentRect.centerY;
 //        [self solveOptimumOffsetForSinPathTransitToConnectedPath];
-        self.optimumOffsetAngle = 112/[UIScreen mainScreen].bounds.size.width;
+        self.optimumOffsetAngle = 120/[UIScreen mainScreen].bounds.size.width;
         [self calculateDividedTopAndPointY];
     }
     return self;
@@ -264,6 +264,7 @@ BGRect BGRectMake(CGFloat x, CGFloat y, CGFloat width, CGFloat height) {
         if(t >= 0 && t <= 1) {
             self.dividedPointY = bezier3(pointA.y, pointD.y, pointM.y, pointT1.y, t);
             self.dividedTop = top;
+            NSLog(@"y = %f, top = %f", self.dividedPointY, self.dividedTop);
             return;
         }
     }
@@ -358,7 +359,9 @@ BGRect BGRectMake(CGFloat x, CGFloat y, CGFloat width, CGFloat height) {
     CGPoint pointC = CGPointMake(self.contentRect.centerX, top + radius);
     
     //从离开点开始y坐标的偏移量
-    CGFloat offsetY = (top - self.dividedTop) * (self.dividedPointY - self.stopPosition) / (self.dividedTop + self.radius - self.stopPosition);
+    CGFloat offsetY = (self.dividedTop - top) * (self.dividedPointY - self.stopPosition) / (self.dividedTop + self.radius - self.stopPosition);
+    
+    NSLog(@"offsetY = %f", offsetY);
     
     //底部圆的半径
     CGFloat bottomCircleRadius = offsetY > radius ? radius : offsetY;
@@ -438,7 +441,7 @@ BGRect BGRectMake(CGFloat x, CGFloat y, CGFloat width, CGFloat height) {
 //连接状态时，pointD的X轴方向偏移量
 - (CGFloat)pointDOffsetXWhenConnectedWithTop:(CGFloat)top {
     //    CGFloat offset = (self.contentRect.bottom - top - 2*self.radius) + self.optimumOffsetX;
-    CGFloat offset = (self.contentRect.width * (M_PI - 2) / (2.0 * M_PI)) + (self.contentRect.bottom - top)*2.5 - 2.0*self.radius;
+    CGFloat offset = (self.contentRect.bottom - top)*3.5 - 2.0*self.radius;
     return offset;
 }
 
