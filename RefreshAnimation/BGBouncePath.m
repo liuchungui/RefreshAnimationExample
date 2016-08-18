@@ -43,16 +43,6 @@ CGFloat tForBezier3(CGFloat p0, CGFloat p1, CGFloat p2, CGFloat p3, CGFloat p) {
     return t0;
 }
 
-typedef struct BGRect {
-    CGFloat left;
-    CGFloat right;
-    CGFloat top;
-    CGFloat bottom;
-    CGFloat height;
-    CGFloat width;
-    CGFloat x, y, centerX, centerY;
-} BGRect;
-
 BGRect BGRectMake(CGFloat x, CGFloat y, CGFloat width, CGFloat height) {
     BGRect info = {};
     info.x = x;
@@ -69,9 +59,6 @@ BGRect BGRectMake(CGFloat x, CGFloat y, CGFloat width, CGFloat height) {
 }
 
 @interface BGBouncePath ()
-//内容区域
-@property (nonatomic, assign) BGRect contentRect;
-
 //从正弦曲线过渡到连接状态时D点的最佳偏移量
 @property (nonatomic, assign) CGFloat optimumOffsetX;
 //从正弦曲线过渡到连接状态时，最佳的初始角度
@@ -89,6 +76,7 @@ BGRect BGRectMake(CGFloat x, CGFloat y, CGFloat width, CGFloat height) {
     if(self = [super init]) {
         self.radius = 18;
         self.contentRect = BGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 164);
+        self.stopPosition = self.contentRect.centerY;
 //        [self solveOptimumOffsetForSinPathTransitToConnectedPath];
         self.optimumOffsetAngle = 112/[UIScreen mainScreen].bounds.size.width;
         [self calculateDividedTopAndPointY];
@@ -273,7 +261,7 @@ BGRect BGRectMake(CGFloat x, CGFloat y, CGFloat width, CGFloat height) {
         
         //求解在X中心处，是否存在交叉点
         CGFloat t = tForBezier3(pointA.x, pointD.x, pointM.x, pointT1.x, self.contentRect.centerX);
-        if(t != -1) {
+        if(t >= 0 && t <= 1) {
             self.dividedPointY = bezier3(pointA.y, pointD.y, pointM.y, pointT1.y, t);
             self.dividedTop = top;
             return;
@@ -370,7 +358,7 @@ BGRect BGRectMake(CGFloat x, CGFloat y, CGFloat width, CGFloat height) {
     CGPoint pointC = CGPointMake(self.contentRect.centerX, top + radius);
     
     //从离开点开始y坐标的偏移量
-    CGFloat offsetY = (self.dividedTop - top) * 4.0;
+    CGFloat offsetY = (top - self.dividedTop) * (self.dividedPointY - self.stopPosition) / (self.dividedTop + self.radius - self.stopPosition);
     
     //底部圆的半径
     CGFloat bottomCircleRadius = offsetY > radius ? radius : offsetY;
@@ -422,10 +410,10 @@ BGRect BGRectMake(CGFloat x, CGFloat y, CGFloat width, CGFloat height) {
 
 //到达顶部之后，外圈的路径
 - (UIBezierPath *)outerRingPathWithTop:(CGFloat)top {
-    CGFloat radius = self.radius + 5;
+    CGFloat radius = self.radius;
     CGPoint pointC = CGPointMake(self.contentRect.centerX, top + radius);
     UIBezierPath *path = [UIBezierPath bezierPath];
-    [path addArcWithCenter:pointC radius:radius startAngle:0 endAngle:2*M_PI clockwise:YES];
+    [path addArcWithCenter:pointC radius:radius+5 startAngle:0 endAngle:2*M_PI clockwise:YES];
     return path;
 }
 

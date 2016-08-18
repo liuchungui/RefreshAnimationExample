@@ -52,7 +52,7 @@ static const CGFloat kBottomLayerTop = 164;
 - (UIView *)circleView {
     if(_circleView == nil) {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake((kMainScrrenWidth-20)/2.0, 164, 20, 20)];
-        view.backgroundColor = [UIColor orangeColor];
+        view.backgroundColor = [UIColor clearColor];
         view.layer.cornerRadius = 10;
         [self.view addSubview:view];
         _circleView = view;

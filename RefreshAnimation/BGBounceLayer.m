@@ -16,6 +16,8 @@ static const CGFloat kBottomLayerTop = 164;
 @property (nonatomic, strong) CAShapeLayer *bottomLayer;
 @property (nonatomic, strong) CAShapeLayer *topLayer;
 @property (nonatomic, strong) BGBouncePath *bouncePath;
+//转圈的layer
+@property (nonatomic, strong) CAShapeLayer *ringLayer;
 @end
 
 @implementation BGBounceLayer
@@ -24,6 +26,7 @@ static const CGFloat kBottomLayerTop = 164;
     if(self = [super init]) {
         [self addSublayer:self.bottomLayer];
         [self addSublayer:self.topLayer];
+        [self addSublayer:self.ringLayer];
         
         BGBouncePath * path = [[BGBouncePath alloc] init];
         self.bouncePath = path;
@@ -34,12 +37,22 @@ static const CGFloat kBottomLayerTop = 164;
 - (void)setContentTop:(CGFloat)contentTop {
     _contentTop = contentTop;
     self.bottomLayer.path = [self.bouncePath bottomPathWithTop:contentTop].CGPath;
-    //顶部
+    
+    //上面内容的路径
     if(contentTop > kBottomLayerTop) {
         self.topLayer.path = nil;
     }
     else {
         self.topLayer.path = [self.bouncePath topPathWithTop:contentTop].CGPath;
+    }
+    
+    //形成球时，外面圆环路径
+    if(contentTop + self.bouncePath.radius > self.bouncePath.contentRect.height/2.0) {
+        self.ringLayer.path = nil;
+    }
+    else {
+        //外部圈path
+        self.ringLayer.path = [self.bouncePath outerRingPathWithTop:contentTop].CGPath;
     }
 }
 
@@ -64,5 +77,16 @@ static const CGFloat kBottomLayerTop = 164;
         _topLayer = shapeLayer;
     }
     return _topLayer;
+}
+
+- (CAShapeLayer *)ringLayer {
+    if(_ringLayer == nil) {
+        CAShapeLayer *shapeLayer = [[CAShapeLayer alloc] init];
+        shapeLayer.fillColor = [UIColor clearColor].CGColor;
+        shapeLayer.strokeColor = [UIColor blueColor].CGColor;
+        shapeLayer.lineWidth = 2.0;
+        _ringLayer = shapeLayer;
+    }
+    return _ringLayer;
 }
 @end
