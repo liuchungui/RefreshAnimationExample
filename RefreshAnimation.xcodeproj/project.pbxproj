@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		65014D611D5EC88900DC7993 /* BGBouncePath.m in Sources */ = {isa = PBXBuildFile; fileRef = 65014D601D5EC88900DC7993 /* BGBouncePath.m */; };
+		6504CF811D65430A00D68988 /* BGBounceLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6504CF801D65430A00D68988 /* BGBounceLayer.m */; };
 		659A7B221D5EC210000612ED /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 659A7B211D5EC210000612ED /* main.m */; };
 		659A7B251D5EC210000612ED /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 659A7B241D5EC210000612ED /* AppDelegate.m */; };
 		659A7B281D5EC210000612ED /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 659A7B271D5EC210000612ED /* ViewController.m */; };
@@ -39,6 +40,8 @@
 /* Begin PBXFileReference section */
 		65014D5F1D5EC88900DC7993 /* BGBouncePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGBouncePath.h; sourceTree = "<group>"; };
 		65014D601D5EC88900DC7993 /* BGBouncePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGBouncePath.m; sourceTree = "<group>"; };
+		6504CF7F1D65430A00D68988 /* BGBounceLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGBounceLayer.h; sourceTree = "<group>"; };
+		6504CF801D65430A00D68988 /* BGBounceLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGBounceLayer.m; sourceTree = "<group>"; };
 		659A7B1D1D5EC210000612ED /* RefreshAnimation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RefreshAnimation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		659A7B211D5EC210000612ED /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		659A7B231D5EC210000612ED /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -111,6 +114,8 @@
 				659A7B541D5EC222000612ED /* UIView+Additional.h */,
 				65014D5F1D5EC88900DC7993 /* BGBouncePath.h */,
 				65014D601D5EC88900DC7993 /* BGBouncePath.m */,
+				6504CF7F1D65430A00D68988 /* BGBounceLayer.h */,
+				6504CF801D65430A00D68988 /* BGBounceLayer.m */,
 				659A7B231D5EC210000612ED /* AppDelegate.h */,
 				659A7B241D5EC210000612ED /* AppDelegate.m */,
 				659A7B261D5EC210000612ED /* ViewController.h */,
@@ -284,6 +289,7 @@
 				659A7B251D5EC210000612ED /* AppDelegate.m in Sources */,
 				659A7B221D5EC210000612ED /* main.m in Sources */,
 				65014D611D5EC88900DC7993 /* BGBouncePath.m in Sources */,
+				6504CF811D65430A00D68988 /* BGBounceLayer.m in Sources */,
 				659A7B551D5EC222000612ED /* UIView+Additional.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

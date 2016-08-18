@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "BGBouncePath.h"
 #import "UIView+Additional.h"
+#import "BGBounceLayer.h"
 
 #define kMainScrrenWidth [UIScreen mainScreen].bounds.size.width
 #define kMainScrrenHeight [UIScreen mainScreen].bounds.size.height
@@ -16,12 +17,10 @@
 static const CGFloat kBottomLayerTop = 164;
 
 @interface ViewController ()
-@property (nonatomic, strong) BGBouncePath *path;
 @property (nonatomic, strong) CADisplayLink *displayLink;
-@property (nonatomic, strong) CAShapeLayer *shapeLayer;
-@property (nonatomic, strong) CAShapeLayer *topLayer;
 @property (nonatomic, strong) UIView *circleView;
 @property (nonatomic, assign) CGPoint position;
+@property (nonatomic, strong) BGBounceLayer *bounceLayer;
 @end
 
 @implementation ViewController
@@ -29,8 +28,8 @@ static const CGFloat kBottomLayerTop = 164;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    BGBouncePath * path = [[BGBouncePath alloc] init];
-    self.path = path;
+    self.bounceLayer = [[BGBounceLayer alloc] init];
+    [self.view.layer addSublayer:self.bounceLayer];
     
     //添加定时器
     self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(displayEvent:)];
@@ -46,42 +45,7 @@ static const CGFloat kBottomLayerTop = 164;
     //这里只能使用layer的presentationLayer的position，使用view不行
     CALayer *layer = self.circleView.layer.presentationLayer;
     CGFloat top = layer.position.y-10;
-    self.shapeLayer.path = [self.path bottomPathWithTop:top].CGPath;
-    
-    //顶部
-    if(top > kBottomLayerTop) {
-        self.topLayer.path = nil;
-    }
-    else {
-        self.topLayer.path = [self.path topPathWithTop:top].CGPath;
-    }
-}
-
-
-- (CAShapeLayer *)shapeLayer {
-    if(_shapeLayer == nil) {
-        CAShapeLayer *shapeLayer = [[CAShapeLayer alloc] init];
-        shapeLayer.fillColor = [UIColor blueColor].CGColor;
-        shapeLayer.strokeColor = [UIColor clearColor].CGColor;
-        shapeLayer.lineWidth = 1.0;
-        shapeLayer.frame = [UIScreen mainScreen].bounds;
-        [self.view.layer addSublayer:shapeLayer];
-        _shapeLayer = shapeLayer;
-    }
-    return _shapeLayer;
-}
-
-- (CAShapeLayer *)topLayer {
-    if(_topLayer == nil) {
-        CAShapeLayer *shapeLayer = [[CAShapeLayer alloc] init];
-        shapeLayer.fillColor = [UIColor blueColor].CGColor;
-        shapeLayer.strokeColor = [UIColor clearColor].CGColor;
-        shapeLayer.lineWidth = 1.0;
-        shapeLayer.frame = [UIScreen mainScreen].bounds;
-        [self.view.layer addSublayer:shapeLayer];
-        _topLayer = shapeLayer;
-    }
-    return _topLayer;
+    self.bounceLayer.contentTop = top;
 }
 
 
